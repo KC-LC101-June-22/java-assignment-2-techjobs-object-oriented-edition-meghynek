@@ -29,6 +29,12 @@ public class JobTest {
         assertEquals("Desert", job3.getLocation().getValue());
         assertEquals("Quality control", job3.getPositionType().getValue());
         assertEquals("Persistence", job3.getCoreCompetency().getValue());
+
+        assertTrue(job3.getName().equals("Product tester"));
+        assertTrue(job3.getEmployer().getValue().equals("ACME"));
+        assertTrue(job3.getLocation().getValue().equals("Desert"));
+        assertTrue(job3.getPositionType().getValue().equals("Quality control"));
+        assertTrue(job3.getCoreCompetency().getValue().equals("Persistence"));
     }
 
     @Test
@@ -40,4 +46,56 @@ public class JobTest {
     assertFalse(job4.getId() == (job5.getId()));
     }
 
+    @Test
+    public void testToStringStartsAndEndsWithNewLine(){
+        Job job4 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String realOutput = job4.toString();
+        String expectedOutput = "\n" +
+                "ID: 1" + "\n" +
+                "Name: Product tester" + "\n" +
+                "Employer: ACME" + "\n" +
+                "Location: Desert" + "\n" +
+                "Position Type: Quality control" + "\n" +
+                "Core Competency: Persistence" +
+                "\n";
+        assertEquals(expectedOutput, realOutput);
+        assertEquals(realOutput.charAt(0), expectedOutput.charAt(0));
+        assertEquals(realOutput.charAt(119), expectedOutput.charAt(119));
+
+        assertTrue(realOutput.charAt(0) == (expectedOutput.charAt(0)));
+        assertTrue(realOutput.charAt(119) == (expectedOutput.charAt(119)));
+
+    }
+    @Test
+    public void testToStringContainsCorrectLabelsAndData(){
+        Job job4 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String realOutput = job4.toString();
+        String expectedOutput = "\n" +
+                "ID: 1" + "\n" +
+                "Name: Product tester" + "\n" +
+                "Employer: ACME" + "\n" +
+                "Location: Desert" + "\n" +
+                "Position Type: Quality control" + "\n" +
+                "Core Competency: Persistence" +
+                "\n";
+
+        assertEquals(expectedOutput, realOutput);
+        //System.out.println(job4.toString());
+    }
+
+    @Test
+    public void testToStringHandlesEmptyField(){
+       Job jobIncomplete = new Job("Web Developer", new Employer(""), new Location("StL"), new PositionType(""), new CoreCompetency("sup"));
+       String realOutput = jobIncomplete.toString();
+       String expectedOutput = "\n" +
+                "ID: 1" + "\n" +
+                "Name: Web Developer" + "\n" +
+                "Employer: Data not available" + "\n" +
+                "Location: StL" + "\n" +
+                "Position Type: Data not available" + "\n" +
+                "Core Competency: sup" +
+                "\n";
+       // System.out.println(realOutput);
+       assertEquals(expectedOutput, realOutput);
+    }
 }
